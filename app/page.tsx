@@ -292,7 +292,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-br from-amber-100/40 to-amber-50/20 rounded-3xl blur-2xl"></div>
             <div className="relative h-full rounded-3xl overflow-hidden shadow-2xl">
               <Image
-                src="/products/IMG_7461.JPG"
+                src="/products/product_057.jpeg"
                 alt="Handcrafted wooden furniture"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
