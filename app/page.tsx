@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Trash2, Edit2, Lock } from "lucide-react";
+import { Trash2, Edit2, Lock, X, ZoomIn } from "lucide-react";
 
 export default function Home() {
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
@@ -12,6 +12,7 @@ export default function Home() {
   const [adminPassword, setAdminPassword] = useState("");
   const [deletedProducts, setDeletedProducts] = useState<Set<number>>(new Set());
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [fullViewImage, setFullViewImage] = useState<string | null>(null);
   const ADMIN_PASSWORD = "admin123";
 
   // Comprehensive product catalog organized by type and size
@@ -21,16 +22,16 @@ export default function Home() {
       description: "Elegant dining tables and seating for memorable gatherings",
       icon: "🍽️",
       products: [
-        { id: 1, name: "Heritage Dining Table - Large", size: "Large", image: "/products/IMG_7440.JPG", price: "$2,499", featured: true },
-        { id: 2, name: "Carved Console Table", size: "Medium", image: "/products/IMG_7455.JPG", price: "$1,899", featured: false },
-        { id: 3, name: "Traditional Dining Set", size: "Large", image: "/products/IMG_7470.JPG", price: "$3,299", featured: false },
-        { id: 4, name: "Artisan Dining Table", size: "Medium", image: "/products/IMG_7473.JPG", price: "$1,999", featured: false },
-        { id: 5, name: "Carved Dining Table", size: "Large", image: "/products/IMG_7475.JPG", price: "$2,799", featured: false },
-        { id: 6, name: "Heritage Table - Medium", size: "Medium", image: "/products/IMG_7478.JPG", price: "$1,699", featured: false },
-        { id: 7, name: "Premium Dining Set", size: "Large", image: "/products/product_045.jpeg", price: "$3,599", featured: false },
-        { id: 8, name: "Elegant Dining Table", size: "Large", image: "/products/product_046.jpeg", price: "$2,899", featured: false },
-        { id: 9, name: "Classic Dining Collection", size: "Large", image: "/products/product_047.jpeg", price: "$3,199", featured: false },
-        { id: 10, name: "Rustic Dining Table", size: "Large", image: "/products/product_048.jpeg", price: "$2,699", featured: false },
+        { id: 1, name: "Heritage Dining Table - Large", size: "Large", image: "/products/IMG_7440.JPG", price: "$0", featured: true },
+        { id: 2, name: "Carved Console Table", size: "Medium", image: "/products/IMG_7455.JPG", price: "$0", featured: false },
+        { id: 3, name: "Traditional Dining Set", size: "Large", image: "/products/IMG_7470.JPG", price: "$0", featured: false },
+        { id: 4, name: "Artisan Dining Table", size: "Medium", image: "/products/IMG_7473.JPG", price: "$0", featured: false },
+        { id: 5, name: "Carved Dining Table", size: "Large", image: "/products/IMG_7475.JPG", price: "$0", featured: false },
+        { id: 6, name: "Heritage Table - Medium", size: "Medium", image: "/products/IMG_7478.JPG", price: "$0", featured: false },
+        { id: 7, name: "Premium Dining Set", size: "Large", image: "/products/product_045.jpeg", price: "$0", featured: false },
+        { id: 8, name: "Elegant Dining Table", size: "Large", image: "/products/product_046.jpeg", price: "$0", featured: false },
+        { id: 9, name: "Classic Dining Collection", size: "Large", image: "/products/product_047.jpeg", price: "$0", featured: false },
+        { id: 10, name: "Rustic Dining Table", size: "Large", image: "/products/product_048.jpeg", price: "$0", featured: false },
       ]
     },
     seating: {
@@ -38,16 +39,16 @@ export default function Home() {
       description: "Comfortable and stylish chairs, benches, and stools",
       icon: "🪑",
       products: [
-        { id: 11, name: "Carved Wooden Chair", size: "Small", image: "/products/IMG_7442.JPG", price: "$899", featured: true },
-        { id: 12, name: "Traditional Bench", size: "Medium", image: "/products/IMG_7452.JPG", price: "$1,299", featured: false },
-        { id: 13, name: "Artisan Armchair", size: "Medium", image: "/products/IMG_7483.JPG", price: "$1,599", featured: false },
-        { id: 14, name: "Carved Wooden Stool", size: "Small", image: "/products/IMG_7484.JPG", price: "$599", featured: false },
-        { id: 15, name: "Heritage Chair Set", size: "Medium", image: "/products/IMG_7485.JPG", price: "$1,899", featured: false },
-        { id: 16, name: "Traditional Bench - Large", size: "Large", image: "/products/IMG_7486.JPG", price: "$1,799", featured: false },
-        { id: 17, name: "Ornate Chair", size: "Medium", image: "/products/product_049.jpeg", price: "$1,299", featured: false },
-        { id: 18, name: "Comfort Bench", size: "Large", image: "/products/product_050.jpeg", price: "$1,599", featured: false },
-        { id: 19, name: "Designer Stool", size: "Small", image: "/products/product_051.jpeg", price: "$699", featured: false },
-        { id: 20, name: "Executive Chair", size: "Medium", image: "/products/product_052.jpeg", price: "$1,799", featured: false },
+        { id: 11, name: "Carved Wooden Chair", size: "Small", image: "/products/IMG_7442.JPG", price: "$0", featured: true },
+        { id: 12, name: "Traditional Bench", size: "Medium", image: "/products/IMG_7452.JPG", price: "$0", featured: false },
+        { id: 13, name: "Artisan Armchair", size: "Medium", image: "/products/IMG_7483.JPG", price: "$0", featured: false },
+        { id: 14, name: "Carved Wooden Stool", size: "Small", image: "/products/IMG_7484.JPG", price: "$0", featured: false },
+        { id: 15, name: "Heritage Chair Set", size: "Medium", image: "/products/IMG_7485.JPG", price: "$0", featured: false },
+        { id: 16, name: "Traditional Bench - Large", size: "Large", image: "/products/IMG_7486.JPG", price: "$0", featured: false },
+        { id: 17, name: "Ornate Chair", size: "Medium", image: "/products/product_049.jpeg", price: "$0", featured: false },
+        { id: 18, name: "Comfort Bench", size: "Large", image: "/products/product_050.jpeg", price: "$0", featured: false },
+        { id: 19, name: "Designer Stool", size: "Small", image: "/products/product_051.jpeg", price: "$0", featured: false },
+        { id: 20, name: "Executive Chair", size: "Medium", image: "/products/product_052.jpeg", price: "$0", featured: false },
       ]
     },
     storage: {
@@ -55,16 +56,16 @@ export default function Home() {
       description: "Functional and beautiful storage solutions for every room",
       icon: "📦",
       products: [
-        { id: 21, name: "Artisan Cabinet", size: "Large", image: "/products/IMG_7446.JPG", price: "$1,799", featured: true },
-        { id: 22, name: "Wooden Storage Box", size: "Small", image: "/products/IMG_7457.JPG", price: "$749", featured: false },
-        { id: 23, name: "Heritage Cabinet - Medium", size: "Medium", image: "/products/IMG_7487.JPG", price: "$1,499", featured: false },
-        { id: 24, name: "Carved Storage Chest", size: "Large", image: "/products/IMG_7491.JPG", price: "$2,099", featured: false },
-        { id: 25, name: "Artisan Wardrobe", size: "Large", image: "/products/IMG_7494.JPG", price: "$2,499", featured: false },
-        { id: 26, name: "Traditional Storage Box", size: "Medium", image: "/products/IMG_7495.JPG", price: "$999", featured: false },
-        { id: 27, name: "Vintage Cabinet", size: "Large", image: "/products/product_053.jpeg", price: "$1,999", featured: false },
-        { id: 28, name: "Decorative Chest", size: "Medium", image: "/products/product_054.jpeg", price: "$1,299", featured: false },
-        { id: 29, name: "Storage Wardrobe", size: "Large", image: "/products/product_055.jpeg", price: "$2,299", featured: false },
-        { id: 30, name: "Wooden Cupboard", size: "Large", image: "/products/product_056.jpeg", price: "$1,899", featured: false },
+        { id: 21, name: "Artisan Cabinet", size: "Large", image: "/products/IMG_7446.JPG", price: "$0", featured: true },
+        { id: 22, name: "Wooden Storage Box", size: "Small", image: "/products/IMG_7457.JPG", price: "$0", featured: false },
+        { id: 23, name: "Heritage Cabinet - Medium", size: "Medium", image: "/products/IMG_7487.JPG", price: "$0", featured: false },
+        { id: 24, name: "Carved Storage Chest", size: "Large", image: "/products/IMG_7491.JPG", price: "$0", featured: false },
+        { id: 25, name: "Artisan Wardrobe", size: "Large", image: "/products/IMG_7494.JPG", price: "$0", featured: false },
+        { id: 26, name: "Traditional Storage Box", size: "Medium", image: "/products/IMG_7495.JPG", price: "$0", featured: false },
+        { id: 27, name: "Vintage Cabinet", size: "Large", image: "/products/product_053.jpeg", price: "$0", featured: false },
+        { id: 28, name: "Decorative Chest", size: "Medium", image: "/products/product_054.jpeg", price: "$0", featured: false },
+        { id: 29, name: "Storage Wardrobe", size: "Large", image: "/products/product_055.jpeg", price: "$0", featured: false },
+        { id: 30, name: "Wooden Cupboard", size: "Large", image: "/products/product_056.jpeg", price: "$0", featured: false },
       ]
     },
     decor: {
@@ -72,16 +73,16 @@ export default function Home() {
       description: "Decorative pieces and accessories to enhance your space",
       icon: "✨",
       products: [
-        { id: 31, name: "Decorative Shelf", size: "Small", image: "/products/IMG_7447.JPG", price: "$599", featured: true },
-        { id: 32, name: "Ornate Mirror Frame", size: "Medium", image: "/products/IMG_7458.JPG", price: "$449", featured: false },
-        { id: 33, name: "Carved Wall Panel", size: "Medium", image: "/products/IMG_7501.JPG", price: "$799", featured: false },
-        { id: 34, name: "Heritage Shelf Unit", size: "Large", image: "/products/IMG_7504.JPG", price: "$1,299", featured: false },
-        { id: 35, name: "Artisan Wall Decor", size: "Small", image: "/products/IMG_7505.JPG", price: "$349", featured: false },
-        { id: 36, name: "Decorative Stand", size: "Medium", image: "/products/IMG_7507.JPG", price: "$649", featured: false },
-        { id: 37, name: "Wall Art Piece", size: "Medium", image: "/products/product_057.jpeg", price: "$549", featured: false },
-        { id: 38, name: "Carved Shelf", size: "Large", image: "/products/product_058.jpeg", price: "$899", featured: false },
-        { id: 39, name: "Decorative Panel", size: "Medium", image: "/products/product_059.jpeg", price: "$699", featured: false },
-        { id: 40, name: "Ornamental Stand", size: "Small", image: "/products/product_060.jpeg", price: "$449", featured: false },
+        { id: 31, name: "Decorative Shelf", size: "Small", image: "/products/IMG_7447.JPG", price: "$0", featured: true },
+        { id: 32, name: "Ornate Mirror Frame", size: "Medium", image: "/products/IMG_7458.JPG", price: "$0", featured: false },
+        { id: 33, name: "Carved Wall Panel", size: "Medium", image: "/products/IMG_7501.JPG", price: "$0", featured: false },
+        { id: 34, name: "Heritage Shelf Unit", size: "Large", image: "/products/IMG_7504.JPG", price: "$0", featured: false },
+        { id: 35, name: "Artisan Wall Decor", size: "Small", image: "/products/IMG_7505.JPG", price: "$0", featured: false },
+        { id: 36, name: "Decorative Stand", size: "Medium", image: "/products/IMG_7507.JPG", price: "$0", featured: false },
+        { id: 37, name: "Wall Art Piece", size: "Medium", image: "/products/product_057.jpeg", price: "$0", featured: false },
+        { id: 38, name: "Carved Shelf", size: "Large", image: "/products/product_058.jpeg", price: "$0", featured: false },
+        { id: 39, name: "Decorative Panel", size: "Medium", image: "/products/product_059.jpeg", price: "$0", featured: false },
+        { id: 40, name: "Ornamental Stand", size: "Small", image: "/products/product_060.jpeg", price: "$0", featured: false },
       ]
     },
     bedroom: {
@@ -89,16 +90,16 @@ export default function Home() {
       description: "Handcrafted bedroom furniture for restful spaces",
       icon: "🛏️",
       products: [
-        { id: 41, name: "Heritage Bed Frame - King", size: "Large", image: "/products/IMG_7508.JPG", price: "$3,499", featured: true },
-        { id: 42, name: "Carved Nightstand", size: "Small", image: "/products/IMG_7510.JPG", price: "$699", featured: false },
-        { id: 43, name: "Artisan Bed Frame - Queen", size: "Large", image: "/products/IMG_7518.JPG", price: "$2,899", featured: false },
-        { id: 44, name: "Traditional Headboard", size: "Large", image: "/products/IMG_7520.JPG", price: "$1,599", featured: false },
-        { id: 45, name: "Heritage Dresser", size: "Large", image: "/products/IMG_7522.JPG", price: "$2,199", featured: false },
-        { id: 46, name: "Carved Bed Frame - Twin", size: "Medium", image: "/products/IMG_7533.JPG", price: "$1,999", featured: false },
-        { id: 47, name: "Luxury Bed Frame", size: "Large", image: "/products/product_061.jpeg", price: "$3,799", featured: false },
-        { id: 48, name: "Elegant Nightstand", size: "Small", image: "/products/product_062.jpeg", price: "$799", featured: false },
-        { id: 49, name: "Premium Headboard", size: "Large", image: "/products/product_063.jpeg", price: "$1,899", featured: false },
-        { id: 50, name: "Carved Dresser", size: "Large", image: "/products/product_064.jpeg", price: "$2,499", featured: false },
+        { id: 41, name: "Heritage Bed Frame - King", size: "Large", image: "/products/IMG_7508.JPG", price: "$0", featured: true },
+        { id: 42, name: "Carved Nightstand", size: "Small", image: "/products/IMG_7510.JPG", price: "$0", featured: false },
+        { id: 43, name: "Artisan Bed Frame - Queen", size: "Large", image: "/products/IMG_7518.JPG", price: "$0", featured: false },
+        { id: 44, name: "Traditional Headboard", size: "Large", image: "/products/IMG_7520.JPG", price: "$0", featured: false },
+        { id: 45, name: "Heritage Dresser", size: "Large", image: "/products/IMG_7522.JPG", price: "$0", featured: false },
+        { id: 46, name: "Carved Bed Frame - Twin", size: "Medium", image: "/products/IMG_7533.JPG", price: "$0", featured: false },
+        { id: 47, name: "Luxury Bed Frame", size: "Large", image: "/products/product_061.jpeg", price: "$0", featured: false },
+        { id: 48, name: "Elegant Nightstand", size: "Small", image: "/products/product_062.jpeg", price: "$0", featured: false },
+        { id: 49, name: "Premium Headboard", size: "Large", image: "/products/product_063.jpeg", price: "$0", featured: false },
+        { id: 50, name: "Carved Dresser", size: "Large", image: "/products/product_064.jpeg", price: "$0", featured: false },
       ]
     },
     tables: {
@@ -106,16 +107,16 @@ export default function Home() {
       description: "Coffee tables, side tables, and accent surfaces",
       icon: "🪵",
       products: [
-        { id: 51, name: "Heritage Coffee Table", size: "Medium", image: "/products/IMG_7535.JPG", price: "$1,199", featured: true },
-        { id: 52, name: "Carved Side Table", size: "Small", image: "/products/IMG_7538.JPG", price: "$799", featured: false },
-        { id: 53, name: "Artisan Accent Table", size: "Small", image: "/products/IMG_7542.JPG", price: "$649", featured: false },
-        { id: 54, name: "Traditional Coffee Table", size: "Medium", image: "/products/IMG_7550.JPG", price: "$1,399", featured: false },
-        { id: 55, name: "Heritage Side Table", size: "Small", image: "/products/IMG_7551.JPG", price: "$899", featured: false },
-        { id: 56, name: "Carved Console", size: "Medium", image: "/products/IMG_7552.JPG", price: "$1,299", featured: false },
-        { id: 57, name: "Modern Coffee Table", size: "Medium", image: "/products/product_065.jpeg", price: "$1,299", featured: false },
-        { id: 58, name: "Accent Side Table", size: "Small", image: "/products/product_066.jpeg", price: "$749", featured: false },
-        { id: 59, name: "Designer Console", size: "Medium", image: "/products/product_067.jpeg", price: "$1,199", featured: false },
-        { id: 60, name: "Premium Coffee Table", size: "Large", image: "/products/product_068.jpeg", price: "$1,599", featured: false },
+        { id: 51, name: "Heritage Coffee Table", size: "Medium", image: "/products/IMG_7535.JPG", price: "$0", featured: true },
+        { id: 52, name: "Carved Side Table", size: "Small", image: "/products/IMG_7538.JPG", price: "$0", featured: false },
+        { id: 53, name: "Artisan Accent Table", size: "Small", image: "/products/IMG_7542.JPG", price: "$0", featured: false },
+        { id: 54, name: "Traditional Coffee Table", size: "Medium", image: "/products/IMG_7550.JPG", price: "$0", featured: false },
+        { id: 55, name: "Heritage Side Table", size: "Small", image: "/products/IMG_7551.JPG", price: "$0", featured: false },
+        { id: 56, name: "Carved Console", size: "Medium", image: "/products/IMG_7552.JPG", price: "$0", featured: false },
+        { id: 57, name: "Modern Coffee Table", size: "Medium", image: "/products/product_065.jpeg", price: "$0", featured: false },
+        { id: 58, name: "Accent Side Table", size: "Small", image: "/products/product_066.jpeg", price: "$0", featured: false },
+        { id: 59, name: "Designer Console", size: "Medium", image: "/products/product_067.jpeg", price: "$0", featured: false },
+        { id: 60, name: "Premium Coffee Table", size: "Large", image: "/products/product_068.jpeg", price: "$0", featured: false },
       ]
     },
     artisan: {
@@ -123,16 +124,16 @@ export default function Home() {
       description: "Limited edition and custom handcrafted pieces",
       icon: "👨‍🎨",
       products: [
-        { id: 61, name: "Master Craftsman Chair", size: "Medium", image: "/products/IMG_7557.JPG", price: "$1,899", featured: true },
-        { id: 62, name: "Heritage Masterpiece", size: "Large", image: "/products/IMG_7558.JPG", price: "$4,499", featured: false },
-        { id: 63, name: "Carved Art Piece", size: "Small", image: "/products/IMG_7559.JPG", price: "$1,299", featured: false },
-        { id: 64, name: "Artisan Collection Piece", size: "Medium", image: "/products/IMG_7560.JPG", price: "$2,299", featured: false },
-        { id: 65, name: "Custom Carved Table", size: "Large", image: "/products/product_069.jpeg", price: "$3,899", featured: false },
-        { id: 66, name: "Heritage Artisan Set", size: "Large", image: "/products/product_070.jpeg", price: "$5,299", featured: false },
-        { id: 67, name: "Limited Edition Chair", size: "Medium", image: "/products/product_071.jpeg", price: "$2,199", featured: false },
-        { id: 68, name: "Exclusive Cabinet", size: "Large", image: "/products/product_072.jpeg", price: "$4,799", featured: false },
-        { id: 69, name: "Bespoke Furniture", size: "Large", image: "/products/product_073.jpeg", price: "$5,999", featured: false },
-        { id: 70, name: "Master Collection", size: "Large", image: "/products/product_074.jpeg", price: "$6,499", featured: false },
+        { id: 61, name: "Master Craftsman Chair", size: "Medium", image: "/products/IMG_7557.JPG", price: "$0", featured: true },
+        { id: 62, name: "Heritage Masterpiece", size: "Large", image: "/products/IMG_7558.JPG", price: "$0", featured: false },
+        { id: 63, name: "Carved Art Piece", size: "Small", image: "/products/IMG_7559.JPG", price: "$0", featured: false },
+        { id: 64, name: "Artisan Collection Piece", size: "Medium", image: "/products/IMG_7560.JPG", price: "$0", featured: false },
+        { id: 65, name: "Custom Carved Table", size: "Large", image: "/products/product_069.jpeg", price: "$0", featured: false },
+        { id: 66, name: "Heritage Artisan Set", size: "Large", image: "/products/product_070.jpeg", price: "$0", featured: false },
+        { id: 67, name: "Limited Edition Chair", size: "Medium", image: "/products/product_071.jpeg", price: "$0", featured: false },
+        { id: 68, name: "Exclusive Cabinet", size: "Large", image: "/products/product_072.jpeg", price: "$0", featured: false },
+        { id: 69, name: "Bespoke Furniture", size: "Large", image: "/products/product_073.jpeg", price: "$0", featured: false },
+        { id: 70, name: "Master Collection", size: "Large", image: "/products/product_074.jpeg", price: "$0", featured: false },
       ]
     },
     premium: {
@@ -140,13 +141,13 @@ export default function Home() {
       description: "Exclusive high-end handcrafted furniture pieces",
       icon: "👑",
       products: [
-        { id: 71, name: "Royal Dining Set", size: "Large", image: "/products/product_075.jpeg", price: "$7,999", featured: true },
-        { id: 72, name: "Luxury Bedroom Suite", size: "Large", image: "/products/product_076.jpeg", price: "$8,499", featured: false },
-        { id: 73, name: "Executive Office Set", size: "Large", image: "/products/product_077.jpeg", price: "$6,999", featured: false },
-        { id: 74, name: "Grand Masterpiece", size: "Large", image: "/products/product_078.jpeg", price: "$9,999", featured: false },
-        { id: 75, name: "Signature Collection", size: "Large", image: "/products/product_079.jpeg", price: "$7,499", featured: false },
-        { id: 76, name: "Heritage Legacy", size: "Large", image: "/products/product_080.jpeg", price: "$8,999", featured: false },
-        { id: 77, name: "Artisan's Pride", size: "Large", image: "/products/product_081.jpeg", price: "$9,499", featured: false },
+        { id: 71, name: "Royal Dining Set", size: "Large", image: "/products/product_075.jpeg", price: "$0", featured: true },
+        { id: 72, name: "Luxury Bedroom Suite", size: "Large", image: "/products/product_076.jpeg", price: "$0", featured: false },
+        { id: 73, name: "Executive Office Set", size: "Large", image: "/products/product_077.jpeg", price: "$0", featured: false },
+        { id: 74, name: "Grand Masterpiece", size: "Large", image: "/products/product_078.jpeg", price: "$0", featured: false },
+        { id: 75, name: "Signature Collection", size: "Large", image: "/products/product_079.jpeg", price: "$0", featured: false },
+        { id: 76, name: "Heritage Legacy", size: "Large", image: "/products/product_080.jpeg", price: "$0", featured: false },
+        { id: 77, name: "Artisan's Pride", size: "Large", image: "/products/product_081.jpeg", price: "$0", featured: false },
       ]
     }
   };
@@ -216,6 +217,30 @@ export default function Home() {
               >
                 Cancel
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Full Image View Modal */}
+      {fullViewImage && (
+        <div className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
+          <div className="relative max-w-4xl w-full max-h-[90vh]">
+            <button
+              onClick={() => setFullViewImage(null)}
+              className="absolute -top-12 right-0 p-2 text-white hover:bg-white/20 rounded-lg transition-colors"
+              title="Close"
+            >
+              <X size={32} />
+            </button>
+            <div className="relative w-full h-[70vh]">
+              <Image
+                src={fullViewImage}
+                alt="Full view"
+                fill
+                sizes="100vw"
+                className="object-contain"
+              />
             </div>
           </div>
         </div>
@@ -449,9 +474,13 @@ export default function Home() {
                     </div>
                   )}
 
-                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <button className="w-full py-2.5 bg-white text-amber-700 rounded-lg font-semibold hover:bg-amber-50 transition-colors">
-                      View Details
+                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
+                    <button
+                      onClick={() => setFullViewImage(product.image)}
+                      className="flex-1 py-2.5 bg-white text-amber-700 rounded-lg font-semibold hover:bg-amber-50 transition-colors flex items-center justify-center gap-2"
+                    >
+                      <ZoomIn size={18} />
+                      View Full
                     </button>
                   </div>
                 </div>
