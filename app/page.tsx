@@ -16,21 +16,20 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const ADMIN_PASSWORD = "admin123";
 
-  // Load deleted products from localStorage on mount
+  // Load deleted products from API on mount
   useEffect(() => {
-    const saved = localStorage.getItem("deletedProducts");
-    if (saved) {
-      setDeletedProducts(new Set(JSON.parse(saved)));
-    }
-    setIsLoaded(true);
+    const loadDeletedProducts = async () => {
+      try {
+        const response = await fetch('/api/products');
+        const data = await response.json();
+        setDeletedProducts(new Set(data.deletedProducts));
+      } catch (error) {
+        console.error('Error loading deleted products:', error);
+      }
+      setIsLoaded(true);
+    };
+    loadDeletedProducts();
   }, []);
-
-  // Save deleted products to localStorage whenever they change
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("deletedProducts", JSON.stringify(Array.from(deletedProducts)));
-    }
-  }, [deletedProducts, isLoaded]);
 
   // Comprehensive product catalog organized by type and size
   const productCollections = {
@@ -192,8 +191,26 @@ export default function Home() {
 
   const handleDeleteProduct = (productId: number) => {
     if (confirm("Are you sure you want to delete this product?")) {
-      setDeletedProducts(prev => new Set(prev).add(productId));
-      alert("Product deleted successfully");
+      const deleteProduct = async () => {
+        try {
+          const response = await fetch('/api/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId, action: 'delete' })
+          });
+
+          if (response.ok) {
+            setDeletedProducts(prev => new Set(prev).add(productId));
+            alert("Product deleted successfully");
+          } else {
+            alert("Failed to delete product");
+          }
+        } catch (error) {
+          console.error('Error deleting product:', error);
+          alert("Error deleting product");
+        }
+      };
+      deleteProduct();
     }
   };
 
