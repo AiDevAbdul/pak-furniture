@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Trash2, Edit2, Lock, X, ZoomIn } from "lucide-react";
 
 export default function Home() {
@@ -13,7 +13,24 @@ export default function Home() {
   const [deletedProducts, setDeletedProducts] = useState<Set<number>>(new Set());
   const [editingId, setEditingId] = useState<number | null>(null);
   const [fullViewImage, setFullViewImage] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const ADMIN_PASSWORD = "admin123";
+
+  // Load deleted products from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("deletedProducts");
+    if (saved) {
+      setDeletedProducts(new Set(JSON.parse(saved)));
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save deleted products to localStorage whenever they change
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("deletedProducts", JSON.stringify(Array.from(deletedProducts)));
+    }
+  }, [deletedProducts, isLoaded]);
 
   // Comprehensive product catalog organized by type and size
   const productCollections = {
