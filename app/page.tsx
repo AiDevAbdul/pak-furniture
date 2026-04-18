@@ -252,6 +252,8 @@ export default function Home() {
   };
 
   const filteredProducts = products.filter(p => !deletedProducts.has(p.id));
+  const product01Section = filteredProducts.filter(p => p.id >= 1 && p.id <= 21);
+  const remainingProducts = filteredProducts.filter(p => p.id > 21);
 
   return (
     <div className="w-full bg-white">
@@ -378,9 +380,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-amber-700 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">A</span>
+              <span className="text-white font-bold text-sm">R</span>
             </div>
-            <div className="text-lg font-bold text-amber-900">Artisan</div>
+            <div className="text-lg font-bold text-amber-900">RoseWood Furniture</div>
           </div>
           <div className="flex gap-3 items-center">
             {isAdmin && (
@@ -425,14 +427,99 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Products Grid - 2 cols mobile, 3 cols tablet, 4 cols desktop */}
+      {/* Products Grid - Section 1: Remaining Products */}
       <section className="py-16 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            Our Collection
+            Premium Collection
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-6">
-            {filteredProducts.map((product) => (
+            {remainingProducts.map((product) => (
+              <div
+                key={product.id}
+                className="group"
+                onMouseEnter={() => setHoveredProduct(product.id)}
+                onMouseLeave={() => setHoveredProduct(null)}
+              >
+                <div
+                  className="relative aspect-square overflow-hidden rounded bg-gray-100 cursor-pointer"
+                  onClick={() => setFullViewImage(product.image)}
+                >
+                  <Image
+                    src={product.image}
+                    alt={`Product ${product.id}`}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 33vw"
+                    className={`object-cover transition-transform duration-500 ease-out ${
+                      hoveredProduct === product.id ? "scale-150" : "scale-100"
+                    }`}
+                  />
+                  {product.featured && (
+                    <div className="absolute top-2 right-2 bg-amber-600 text-white px-2 py-1 rounded text-xs font-bold">
+                      Featured
+                    </div>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setWishlist(prev => {
+                        const newWishlist = new Set(prev);
+                        if (newWishlist.has(product.id)) {
+                          newWishlist.delete(product.id);
+                        } else {
+                          newWishlist.add(product.id);
+                        }
+                        return newWishlist;
+                      });
+                    }}
+                    className="absolute top-2 right-2 p-2 bg-white/80 hover:bg-white rounded-full transition-colors"
+                    title="Add to wishlist"
+                  >
+                    <Heart
+                      size={18}
+                      className={`transition-colors ${
+                        wishlist.has(product.id)
+                          ? "fill-red-500 text-red-500"
+                          : "text-gray-400"
+                      }`}
+                    />
+                  </button>
+                  {isAdmin && (
+                    <div className="absolute top-2 left-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-1.5 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        title="Update"
+                      >
+                        <Edit2 size={14} />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteProduct(product.id);
+                        }}
+                        className="p-1.5 bg-red-600 text-white rounded hover:bg-red-700"
+                        title="Delete"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Products Grid - Section 2: Product01 Collection */}
+      <section className="py-16 px-4 md:px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
+            Classic Collection
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-6">
+            {product01Section.map((product) => (
               <div
                 key={product.id}
                 className="group"
