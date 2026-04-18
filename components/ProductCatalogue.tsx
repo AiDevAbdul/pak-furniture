@@ -5,23 +5,23 @@ import { useState } from 'react';
 
 const premiumProducts = Array.from({ length: 31 }, (_, i) => ({
   id: `premium-${i + 1}`,
-  image: `/products/Premium/product03 (${153 + i}).jpeg`,
+  image: `/products/Premium/product03-(${153 + i}).jpeg`,
 }));
 
 const normalProducts = [
   ...Array.from({ length: 14 }, (_, i) => ({
     id: `normal-${i + 1}`,
-    image: `/products/normal/Product02 (${22 + i}).JPG`,
+    image: `/products/normal/Product02-(${22 + i}).JPG`,
   })),
   ...Array.from({ length: 114 }, (_, i) => ({
     id: `normal-${15 + i}`,
-    image: `/products/normal/product03 (${36 + i}).jpeg`,
+    image: `/products/normal/product03-(${36 + i}).jpeg`,
   })),
 ];
 
 const gardenProducts = Array.from({ length: 21 }, (_, i) => ({
   id: `garden-${i + 1}`,
-  image: `/products/GardensProducts/product01 (${i + 1}).jpeg`,
+  image: `/products/GardensProducts/product01-(${i + 1}).jpeg`,
 }));
 
 export default function ProductCatalogue() {
