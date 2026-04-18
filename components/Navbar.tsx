@@ -20,7 +20,7 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="#" className="text-xl font-serif font-bold text-gray-900">
-              RoseWood Furniture
+              Tali Heritage
             </a>
           </div>
 
