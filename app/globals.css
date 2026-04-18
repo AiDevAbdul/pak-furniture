@@ -2,14 +2,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #b45309;
-  --color-primary-dark: #92400e;
-  --color-primary-light: #d97706;
-  --color-surface: #fefdfb;
-  --color-surface-secondary: #faf8f3;
-  --color-text: #111827;
-  --color-text-secondary: #4b5563;
-  --color-border: #e5e7eb;
+  --color-heritage-dark: #1B2B21;
+  --color-heritage-light: #F9F8F3;
+  --color-heritage-sand: #E3DED1;
+  --color-heritage-accent: #8B5E3C;
+  --color-heritage-text: #243027;
+  --color-primary: #1B2B21;
+  --color-primary-dark: #0F1A14;
+  --color-primary-light: #8B5E3C;
+  --color-surface: #F9F8F3;
+  --color-surface-secondary: #E3DED1;
+  --color-text: #243027;
+  --color-text-secondary: #5A6B63;
+  --color-border: #E3DED1;
   --font-display: "Playfair Display", serif;
   --font-body: "Inter", sans-serif;
 }
@@ -23,8 +28,8 @@ html {
 }
 
 body {
-  background: linear-gradient(to bottom, #fefdfb, #faf8f3, #f5f0e8);
-  color: var(--color-text);
+  background: linear-gradient(to bottom, #F9F8F3, #E3DED1, #F9F8F3);
+  color: var(--color-heritage-text);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,12 +45,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #b45309, #92400e);
+  background: linear-gradient(to bottom, #8B5E3C, #1B2B21);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #92400e, #78350f);
+  background: linear-gradient(to bottom, #1B2B21, #0F1A14);
 }
 
 /* Animations */
@@ -129,8 +134,8 @@ body {
 
 /* Text selection */
 ::selection {
-  background: linear-gradient(to right, #b45309, #d97706);
-  color: white;
+  background: linear-gradient(to right, #8B5E3C, #1B2B21);
+  color: #F9F8F3;
 }
 
 /* Smooth transitions for interactive elements */
@@ -146,7 +151,7 @@ a:focus-visible {
 
 /* Utility classes */
 .gradient-text {
-  @apply bg-gradient-to-r from-amber-700 to-amber-600 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-heritage-accent to-heritage-dark bg-clip-text text-transparent;
 }
 
 .glass-effect {
@@ -154,5 +159,5 @@ a:focus-visible {
 }
 
 .card-hover {
-  @apply transition-all duration-300 hover:shadow-xl hover:shadow-amber-200/50;
+  @apply transition-all duration-300 hover:shadow-xl hover:shadow-heritage-accent/20;
 }

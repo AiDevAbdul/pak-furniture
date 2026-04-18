@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Trash2, Edit2, Lock, X, Heart } from "lucide-react";
+import FeaturesBar from "@/components/FeaturesBar";
+import CollectionsGrid from "@/components/CollectionsGrid";
+import HeritageBanner from "@/components/HeritageBanner";
+import ProductCatalogue from "@/components/ProductCatalogue";
 
 export default function Home() {
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
@@ -13,7 +17,22 @@ export default function Home() {
   const [fullViewImage, setFullViewImage] = useState<string | null>(null);
   const [wishlist, setWishlist] = useState<Set<number>>(new Set());
   const [showWishlist, setShowWishlist] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const ADMIN_PASSWORD = "admin123";
+
+  const heroImages = [
+    "/hero/IMG_7473.JPG",
+    "/hero/IMG_7504.JPG",
+    "/hero/product_051.jpeg",
+    "/hero/product_057.jpeg",
+  ];
+
+  useEffect(() => {
+    const slideTimer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(slideTimer);
+  }, [heroImages.length]);
 
   const products = [
     { id: 1, image: "/products/product01 (1).jpeg", featured: true },
@@ -251,30 +270,27 @@ export default function Home() {
     }
   };
 
-  const filteredProducts = products.filter(p => !deletedProducts.has(p.id));
-  const product01Section = filteredProducts.filter(p => p.id >= 1 && p.id <= 21);
-  const remainingProducts = filteredProducts.filter(p => p.id > 21);
 
   return (
     <div className="w-full bg-white">
       {/* Admin Login Modal */}
       {showAdminLogin && (
         <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Admin Access</h3>
+          <div className="bg-[#F9F8F3] rounded-lg p-6 max-w-sm w-full shadow-xl">
+            <h3 className="text-xl font-bold text-[#1B2B21] mb-4">Admin Access</h3>
             <input
               type="password"
               value={adminPassword}
               onChange={(e) => setAdminPassword(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleAdminLogin()}
               placeholder="Enter password"
-              className="w-full px-3 py-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-amber-700"
+              className="w-full px-3 py-2 border border-[#E3DED1] rounded mb-4 focus:outline-none focus:ring-2 focus:ring-[#8B5E3C]"
               autoFocus
             />
             <div className="flex gap-2">
               <button
                 onClick={handleAdminLogin}
-                className="flex-1 px-4 py-2 bg-amber-700 text-white rounded font-semibold hover:bg-amber-800"
+                className="flex-1 px-4 py-2 bg-[#1B2B21] text-[#F9F8F3] rounded font-semibold hover:bg-[#0F1A14]"
               >
                 Login
               </button>
@@ -283,7 +299,7 @@ export default function Home() {
                   setShowAdminLogin(false);
                   setAdminPassword("");
                 }}
-                className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded font-semibold hover:bg-gray-300"
+                className="flex-1 px-4 py-2 bg-[#E3DED1] text-[#1B2B21] rounded font-semibold hover:bg-[#D4C5B9]"
               >
                 Cancel
               </button>
@@ -295,18 +311,18 @@ export default function Home() {
       {/* Wishlist Modal */}
       {showWishlist && (
         <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full shadow-xl max-h-[80vh] overflow-y-auto">
+          <div className="bg-[#F9F8F3] rounded-lg p-6 max-w-2xl w-full shadow-xl max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">My Wishlist</h3>
+              <h3 className="text-2xl font-bold text-[#1B2B21] font-serif">My Wishlist</h3>
               <button
                 onClick={() => setShowWishlist(false)}
-                className="p-2 text-gray-500 hover:bg-gray-100 rounded"
+                className="p-2 text-[#5A6B63] hover:bg-[#E3DED1] rounded"
               >
                 <X size={24} />
               </button>
             </div>
             {wishlist.size === 0 ? (
-              <p className="text-gray-600 text-center py-8">Your wishlist is empty</p>
+              <p className="text-[#5A6B63] text-center py-8">Your wishlist is empty</p>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {products
@@ -376,13 +392,13 @@ export default function Home() {
       </button>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur z-50 border-b border-gray-200">
+      <nav className="fixed top-0 w-full bg-[#F9F8F3]/95 backdrop-blur z-50 border-b border-[#E3DED1]">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-amber-700 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">R</span>
+            <div className="w-8 h-8 bg-[#1B2B21] rounded flex items-center justify-center">
+              <span className="text-[#F9F8F3] font-bold text-sm">R</span>
             </div>
-            <div className="text-lg font-bold text-amber-900">RoseWood Furniture</div>
+            <div className="text-lg font-bold text-[#1B2B21]">RoseWood Furniture</div>
           </div>
           <div className="flex gap-3 items-center">
             {isAdmin && (
@@ -399,7 +415,7 @@ export default function Home() {
                   setShowAdminLogin(true);
                 }
               }}
-              className="px-4 py-2 bg-amber-700 text-white rounded text-sm font-semibold hover:bg-amber-800"
+              className="px-4 py-2 bg-[#1B2B21] text-[#F9F8F3] rounded text-sm font-semibold hover:bg-[#0F1A14]"
             >
               {isAdmin ? "Logout" : "Admin"}
             </button>
@@ -408,209 +424,125 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 md:px-6 bg-gradient-to-b from-amber-50 to-white">
-        <div className="max-w-7xl mx-auto text-center space-y-6">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900">
-            Handcrafted Wooden Furniture
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover our collection of authentic Pakistani wooden furniture, crafted by artisans with generations of heritage.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-            <button className="px-6 py-3 bg-amber-700 text-white rounded hover:bg-amber-800 font-semibold">
-              Explore Collection
-            </button>
-            <button className="px-6 py-3 border-2 border-amber-700 text-amber-700 rounded hover:bg-amber-50 font-semibold">
-              Learn More
-            </button>
+      <section className="pt-32 pb-24 px-4 md:px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content */}
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <p className="text-sm font-semibold uppercase tracking-widest text-amber-700">
+                  Welcome to INOVA WOOD
+                </p>
+                <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight font-serif">
+                  Timeless Craftsmanship
+                </h1>
+                <p className="text-lg text-gray-600 max-w-xl leading-relaxed">
+                  Discover authentic Pakistani wooden furniture handcrafted by master artisans. Each piece tells a story of heritage, tradition, and uncompromising quality.
+                </p>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <button className="px-8 py-3 bg-gray-900 text-white rounded hover:bg-gray-800 font-semibold transition-all duration-300">
+                  Shop Collection
+                </button>
+                <button className="px-8 py-3 border-2 border-gray-900 text-gray-900 rounded hover:bg-gray-900 hover:text-white font-semibold transition-all duration-300">
+                  Discover More
+                </button>
+              </div>
+            </div>
+
+            {/* Right Image Slider */}
+            <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden shadow-xl group">
+              {/* Slider Container */}
+              <div className="relative w-full h-full">
+                {heroImages.map((image, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                      index === currentSlide ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    <Image
+                      src={image}
+                      alt={`Furniture showcase ${index + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover"
+                      priority={index === 0}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Navigation Buttons */}
+              <button
+                onClick={() => setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white/90 hover:bg-white text-gray-900 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                title="Previous image"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              <button
+                onClick={() => setCurrentSlide((prev) => (prev + 1) % heroImages.length)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white/90 hover:bg-white text-gray-900 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                title="Next image"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Dot Indicators */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+                {heroImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentSlide
+                        ? "bg-white w-8"
+                        : "bg-white/50 hover:bg-white/75"
+                    }`}
+                    title={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Products Grid - Section 1: Remaining Products */}
-      <section className="py-16 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            Premium Collection
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-6">
-            {remainingProducts.map((product) => (
-              <div
-                key={product.id}
-                className="group"
-                onMouseEnter={() => setHoveredProduct(product.id)}
-                onMouseLeave={() => setHoveredProduct(null)}
-              >
-                <div
-                  className="relative aspect-square overflow-hidden rounded bg-gray-100 cursor-pointer"
-                  onClick={() => setFullViewImage(product.image)}
-                >
-                  <Image
-                    src={product.image}
-                    alt={`Product ${product.id}`}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 33vw"
-                    className={`object-cover transition-transform duration-500 ease-out ${
-                      hoveredProduct === product.id ? "scale-150" : "scale-100"
-                    }`}
-                  />
-                  {product.featured && (
-                    <div className="absolute top-2 right-2 bg-amber-600 text-white px-2 py-1 rounded text-xs font-bold">
-                      Featured
-                    </div>
-                  )}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setWishlist(prev => {
-                        const newWishlist = new Set(prev);
-                        if (newWishlist.has(product.id)) {
-                          newWishlist.delete(product.id);
-                        } else {
-                          newWishlist.add(product.id);
-                        }
-                        return newWishlist;
-                      });
-                    }}
-                    className="absolute top-2 right-2 p-2 bg-white/80 hover:bg-white rounded-full transition-colors"
-                    title="Add to wishlist"
-                  >
-                    <Heart
-                      size={18}
-                      className={`transition-colors ${
-                        wishlist.has(product.id)
-                          ? "fill-red-500 text-red-500"
-                          : "text-gray-400"
-                      }`}
-                    />
-                  </button>
-                  {isAdmin && (
-                    <div className="absolute top-2 left-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1.5 bg-blue-600 text-white rounded hover:bg-blue-700"
-                        title="Update"
-                      >
-                        <Edit2 size={14} />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteProduct(product.id);
-                        }}
-                        className="p-1.5 bg-red-600 text-white rounded hover:bg-red-700"
-                        title="Delete"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Products Grid - Section 2: Product01 Collection */}
-      <section className="py-16 px-4 md:px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            Classic Collection
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-6">
-            {product01Section.map((product) => (
-              <div
-                key={product.id}
-                className="group"
-                onMouseEnter={() => setHoveredProduct(product.id)}
-                onMouseLeave={() => setHoveredProduct(null)}
-              >
-                <div
-                  className="relative aspect-square overflow-hidden rounded bg-gray-100 cursor-pointer"
-                  onClick={() => setFullViewImage(product.image)}
-                >
-                  <Image
-                    src={product.image}
-                    alt={`Product ${product.id}`}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 33vw"
-                    className={`object-cover transition-transform duration-500 ease-out ${
-                      hoveredProduct === product.id ? "scale-150" : "scale-100"
-                    }`}
-                  />
-                  {product.featured && (
-                    <div className="absolute top-2 right-2 bg-amber-600 text-white px-2 py-1 rounded text-xs font-bold">
-                      Featured
-                    </div>
-                  )}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setWishlist(prev => {
-                        const newWishlist = new Set(prev);
-                        if (newWishlist.has(product.id)) {
-                          newWishlist.delete(product.id);
-                        } else {
-                          newWishlist.add(product.id);
-                        }
-                        return newWishlist;
-                      });
-                    }}
-                    className="absolute top-2 right-2 p-2 bg-white/80 hover:bg-white rounded-full transition-colors"
-                    title="Add to wishlist"
-                  >
-                    <Heart
-                      size={18}
-                      className={`transition-colors ${
-                        wishlist.has(product.id)
-                          ? "fill-red-500 text-red-500"
-                          : "text-gray-400"
-                      }`}
-                    />
-                  </button>
-                  {isAdmin && (
-                    <div className="absolute top-2 left-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1.5 bg-blue-600 text-white rounded hover:bg-blue-700"
-                        title="Update"
-                      >
-                        <Edit2 size={14} />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteProduct(product.id);
-                        }}
-                        className="p-1.5 bg-red-600 text-white rounded hover:bg-red-700"
-                        title="Delete"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Features Bar Section */}
+      <FeaturesBar />
+
+      {/* Collections Grid Section */}
+      <CollectionsGrid />
+
+      {/* Heritage Banner Section */}
+      <HeritageBanner />
+
+      {/* Product Catalogue Section */}
+      <ProductCatalogue />
 
       {/* CTA Section */}
-      <section className="py-16 px-4 md:px-6 bg-amber-900 text-white">
+      <section className="py-16 px-4 md:px-6 bg-[#1B2B21] text-[#F9F8F3]">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h2 className="text-3xl md:text-5xl font-bold">
+          <h2 className="text-3xl md:text-5xl font-bold font-serif">
             Ready to Own a Masterpiece?
           </h2>
-          <p className="text-lg text-amber-100 max-w-2xl mx-auto">
-            Each piece is unique and crafted with love by artisans who care about quality.
+          <p className="text-lg text-[#E3DED1] max-w-2xl mx-auto">
+            Each piece is unique and crafted with love by artisans who care about quality and heritage.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-            <button className="px-8 py-3 bg-white text-amber-900 rounded hover:bg-amber-50 font-semibold">
+            <button className="px-8 py-3 bg-[#F9F8F3] text-[#1B2B21] rounded hover:bg-[#E3DED1] font-semibold transition-all duration-300">
               Shop Now
             </button>
-            <button className="px-8 py-3 border-2 border-white text-white rounded hover:bg-white/10 font-semibold">
+            <button className="px-8 py-3 border-2 border-[#F9F8F3] text-[#F9F8F3] rounded hover:bg-[#F9F8F3]/10 font-semibold transition-all duration-300">
               Contact Us
             </button>
           </div>
