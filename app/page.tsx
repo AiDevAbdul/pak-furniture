@@ -13,6 +13,8 @@ import GardensGallery from "@/components/GardensGallery";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const fullText = "Timeless Craftsmanship";
 
   const heroImages = [
     "/hero/IMG_7473.JPG",
@@ -27,6 +29,15 @@ export default function Home() {
     }, 5000);
     return () => clearInterval(slideTimer);
   }, [heroImages.length]);
+
+  useEffect(() => {
+    if (displayedText.length < fullText.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText(fullText.slice(0, displayedText.length + 1));
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [displayedText]);
 
   return (
     <div className="w-full bg-white">
@@ -47,8 +58,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <h1 className="text-6xl md:text-7xl font-serif font-bold text-gray-900 leading-tight">
-                Timeless Craftsmanship
+              <h1 className="text-6xl md:text-7xl font-serif font-bold text-gray-900 leading-tight min-h-[1.2em]">
+                {displayedText}
+                <span className="animate-pulse">|</span>
               </h1>
 
               <p className="text-lg text-gray-600 leading-relaxed max-w-md">
