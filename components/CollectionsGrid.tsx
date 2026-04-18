@@ -6,27 +6,27 @@ const collections = [
   {
     id: 'dining',
     label: 'Dining Room',
-    image: '/products/Featured/product03 (101).jpeg',
+    image: '/normal/product03-(101).jpeg',
   },
   {
     id: 'bedroom',
     label: 'Bedroom',
-    image: '/products/Featured/product03 (105).jpeg',
+    image: '/normal/product03-(105).jpeg',
   },
   {
     id: 'living',
     label: 'Living Room',
-    image: '/products/Featured/product03 (117).jpeg',
+    image: '/normal/product03-(117).jpeg',
   },
   {
     id: 'accents',
     label: 'Accents',
-    image: '/products/Featured/product03 (154).jpeg',
+    image: '/normal/product03-(150).jpeg',
   },
   {
     id: 'storage',
     label: 'Storage',
-    image: '/products/Featured/product03 (157).jpeg',
+    image: '/normal/product03-(151).jpeg',
   },
 ];
 
