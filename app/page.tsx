@@ -223,7 +223,7 @@ export default function Home() {
           </div>
         </div>
         <div className="border-t border-[#1B2B21] pt-8 text-center text-sm">
-          <p>&copy; 2026 INOVA WOOD. All rights reserved.</p>
+          <p>&copy; 2026 RoseWood Furniture. All rights reserved.</p>
         </div>
       </footer>
     </div>

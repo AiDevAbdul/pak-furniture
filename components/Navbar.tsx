@@ -20,7 +20,7 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="#" className="text-xl font-serif font-bold text-gray-900">
-              INOVA WOOD
+              RoseWood Furniture
             </a>
           </div>
 
